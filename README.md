@@ -1,35 +1,40 @@
+<p align="left">
+  <a href="README_en.md"><img src="https://img.shields.io/badge/English Mode-blue.svg" alt="English"></a>
+  <a href="README.md"><img src="https://img.shields.io/badge/日本語 モード-red.svg" alt="日本語"></a>
+</p>
+
 # OneNote MCP Server
 
-A Model Context Protocol (MCP) server implementation that enables AI language models like Claude and other LLMs to interact with Microsoft OneNote.
+Claude などの AI 言語モデルやその他の LLM が Microsoft OneNote と連携できるようにする、Model Context Protocol（MCP）サーバー実装です。
 
-> This project is based on [azure-onenote-mcp-server](https://github.com/ZubeidHendricks/azure-onenote-mcp-server) by Zubeid Hendricks, with modifications to simplify authentication and improve usability.
+> このプロジェクトは、Zubeid Hendricks 氏による [azure-onenote-mcp-server](https://github.com/ZubeidHendricks/azure-onenote-mcp-server) をベースに、認証の簡素化と使いやすさ向上のための変更を加えたものです。
 
-## What Does This Do?
+## これは何をするものですか？
 
-This server allows AI assistants to:
-- Access your OneNote notebooks, sections, and pages
-- Create new pages in your notebooks
-- Search through your notes
-- Read complete note content, including HTML formatting and text
-- Analyze and summarize your notes directly
+このサーバーを使うと、AI アシスタントは次のことができます。
+- OneNote のノートブック、セクション、ページにアクセスする
+- ノートブック内に新しいページを作成する
+- ノートを検索する
+- HTML フォーマットとテキストを含むノート本文を読み取る
+- ノート内容を直接分析・要約する
 
-All of this happens directly through the AI interface without you having to switch contexts.
+これらをすべて、コンテキストを切り替えることなく AI インターフェース上で実行できます。
 
-## Using with AI Assistants
+## AI アシスタントでの利用
 
-### Setup for Cursor
+### Cursor での設定
 
-1. Clone this repository and follow the installation steps below
-2. Start the MCP server: `npm start`
-3. Register the server in Cursor:
-   - Open Cursor preferences (Cmd+, on Mac or Ctrl+, on Windows)
-   - Go to the "MCP" tab
-   - Add a new MCP server with these settings:
-     - Name: `onenote` 
+1. このリポジトリを clone し、以下のインストール手順を実行します
+2. MCP サーバーを起動します: `npm start`
+3. Cursor にサーバーを登録します:
+   - Cursor の設定を開く（Mac: Cmd+, / Windows: Ctrl+,）
+   - `MCP` タブへ移動
+   - 次の設定で MCP サーバーを追加
+     - Name: `onenote`
      - Command: `node`
-     - Args: `["/path/to/your/onenote-mcp.mjs"]` (use absolute path)
+     - Args: `["/path/to/your/onenote-mcp.mjs"]`（絶対パスを使用）
 
-   Here's the complete JSON configuration example:
+   完全な JSON 設定例:
    ```json
    {
      "mcpServers": {
@@ -41,9 +46,9 @@ All of this happens directly through the AI interface without you having to swit
      }
    }
    ```
-   
-4. Restart Cursor
-5. In Cursor, you can now interact with your OneNote data using natural language:
+
+4. Cursor を再起動します
+5. Cursor 上で自然言語により OneNote データを操作できます:
 
 ```
 Can you show me my OneNote notebooks?
@@ -51,18 +56,18 @@ Create a new page in my first notebook with a summary of this conversation
 Find notes related to "project planning" in my OneNote
 ```
 
-The first time you ask about OneNote, the AI will guide you through the authentication process.
+OneNote について最初に質問した際、AI が認証手順を案内します。
 
-### Setup for Claude Desktop (or other MCP-compatible assistants)
+### Claude Desktop（または MCP 対応アシスタント）での設定
 
-1. Clone this repository and follow the installation steps below
-2. Start the MCP server: `npm start`
-3. In the Claude Desktop settings, add the OneNote MCP server:
+1. このリポジトリを clone し、以下のインストール手順を実行します
+2. MCP サーバーを起動します: `npm start`
+3. Claude Desktop の設定で OneNote MCP サーバーを追加します:
    - Name: `onenote`
    - Command: `node`
-   - Args: `["/path/to/your/onenote-mcp.mjs"]` (use absolute path)
-   
-   JSON configuration example:
+   - Args: `["/path/to/your/onenote-mcp.mjs"]`（絶対パスを使用）
+
+   JSON 設定例:
    ```json
    {
      "mcpServers": {
@@ -74,101 +79,121 @@ The first time you ask about OneNote, the AI will guide you through the authenti
      }
    }
    ```
-   
-4. You can now ask Claude to interact with your OneNote data
 
-## Features
+4. Claude に OneNote データの操作を依頼できるようになります
 
-- Authentication with Microsoft OneNote using device code flow (no Azure setup needed)
-- List all notebooks, sections, and pages
-- Create new pages with HTML content
-- Read complete page content, including HTML formatting
-- Extract text content for AI analysis and summaries
-- Summarize content of all pages in a single operation
-- Read full content of all pages in a readable format
-- Search across your notes
+### GitHub Copilot（VS Code 拡張）での設定
 
-## Installation
+1. このリポジトリを clone し、以下のインストール手順を実行します
+2. このプロジェクトの `.vscode/mcp.json` を作成または更新します:
+   ```json
+   {
+     "servers": {
+       "onenote": {
+         "command": "node",
+         "args": ["/absolute/path/to/your/onenote-mcp.mjs"],
+         "env": {}
+       }
+     }
+   }
+   ```
+3. VS Code で `.vscode/mcp.json` を開き、MCP サーバーの `Start` ボタンを押します
+4. Copilot Chat を開いて `Agent` モードに切り替え、ツールアイコンから `onenote` ツールが利用可能か確認します
+5. 自然言語で OneNote 操作を依頼します
 
-### Prerequisites
+### Codex CLI（WSL 環境）での設定
 
-- Node.js 16 or higher (install from [nodejs.org](https://nodejs.org/))
-- An active Microsoft account with access to OneNote
-- Git (install from [git-scm.com](https://git-scm.com/))
+1. このリポジトリを clone し、以下のインストール手順を実行します
+2. WSL から Codex CLI に MCP サーバーを登録します:
+   ```bash
+   codex mcp add onenote -- node /mnt/c/junichi.takeda/source/onenote-mcp/onenote-mcp.mjs
+   ```
+3. 登録状態を確認します:
+   ```bash
+   codex mcp list
+   ```
+4. Codex CLI を起動して OneNote 関連の依頼を行うと、MCP サーバープロセスは自動起動されます
 
-### Step 1: Clone the Repository
+## 主な機能
+
+- デバイスコードフローによる Microsoft OneNote 認証（Azure 設定不要）
+- すべてのノートブック、セクション、ページの一覧取得
+- HTML コンテンツ付きの新規ページ作成
+- HTML フォーマットを含むページ本文の完全取得
+- AI 分析・要約向けのテキスト抽出
+- 全ページ内容の一括要約
+- 全ページ本文の読みやすい形式での一括取得
+- ノート全体の検索
+
+## インストール
+
+### 前提条件
+
+- Node.js 16 以上（[nodejs.org](https://nodejs.org/) からインストール）
+- OneNote にアクセスできる Microsoft アカウント
+- Git（[git-scm.com](https://git-scm.com/) からインストール）
+
+### 手順 1: リポジトリを clone
 
 ```bash
 git clone https://github.com/yourusername/onenote-mcp.git
 cd onenote-mcp
 ```
 
-### Step 2: Download the TypeScript SDK
-
-This project requires the MCP TypeScript SDK, which needs to be downloaded separately:
-
-```bash
-git clone https://github.com/modelcontextprotocol/typescript-sdk.git
-cd typescript-sdk
-npm install
-npm run build
-cd ..
-```
-
-### Step 3: Install Project Dependencies
+### 手順 2: 依存関係をインストール
 
 ```bash
 npm install
 ```
 
-### Step 4: Start the MCP Server
+### 手順 3: MCP サーバーを起動
 
 ```bash
 npm start
 ```
 
-This will start the MCP server, and you'll see a message:
+起動すると次のメッセージが表示されます:
 ```
 Server started successfully.
 Use the "authenticate" tool to start the authentication flow,
 or use "saveAccessToken" if you already have a token.
 ```
 
-### Step 5: Authenticate Through Your AI Assistant
+### 手順 4: AI アシスタント経由で認証
 
-Once the server is running, you can authenticate directly through your AI assistant:
+サーバー起動後、AI アシスタント経由で直接認証できます。
 
-1. In Cursor, Anthropic's Claude Desktop, or any MCP-compatible assistant, ask to authenticate with OneNote:
+1. Cursor、Claude Desktop、または任意の MCP 対応アシスタントで、OneNote 認証を依頼します:
    ```
    Can you authenticate with my OneNote account?
    ```
 
-2. The AI will trigger the authentication flow and provide you with:
-   - A URL (typically microsoft.com/devicelogin)
-   - A code to enter
+2. AI が認証フローを開始し、次を案内します:
+   - URL（通常は microsoft.com/devicelogin）
+   - 入力用コード
 
-3. Go to the URL, enter the code, and sign in with your Microsoft account
+3. URL にアクセスし、コードを入力して Microsoft アカウントでサインインします
 
-4. After successful authentication, you can start using OneNote with your AI assistant
+4. 認証が成功したら、AI アシスタント経由で OneNote を利用できます
 
-## Available MCP Tools
+## 利用可能な MCP ツール
 
-Once authenticated, the following tools are available for AI assistants to use:
+認証後、AI アシスタントから次のツールを利用できます。
 
-| Tool Name | Description |
+| ツール名 | 説明 |
 |-----------|-------------|
-| `authenticate` | Start the Microsoft authentication flow |
-| `listNotebooks` | Get a list of all your OneNote notebooks |
-| `getNotebook` | Get details of a specific notebook |
-| `listSections` | List all sections in a notebook |
-| `listPages` | List all pages in a section |
-| `getPage` | Get the complete content of a specific page, including HTML formatting |
-| `createPage` | Create a new page with HTML content |
-| `searchPages` | Search for pages across your notebooks |
+| `authenticate` | Microsoft 認証フローを開始 |
+| `listNotebooks` | OneNote ノートブック一覧を取得 |
+| `getNotebook` | 特定ノートブックの詳細を取得 |
+| `listSections` | ノートブック内のセクション一覧を取得 |
+| `listPages` | セクション内のページ一覧を取得 |
+| `getPage` | HTML フォーマットを含むページ本文を完全取得 |
+| `createPage` | HTML コンテンツ付きの新規ページを作成 |
+| `searchPages` | ノートブック全体からページを検索 |
 
-## Example Interactions
+## 利用例
 
-Here are some examples of how you can interact with the OneNote MCP through your AI assistant:
+AI アシスタント経由で OneNote MCP を利用する際の例です。
 
 ```
 User: Can you show me my OneNote notebooks?
@@ -203,64 +228,64 @@ User: I want to read through all my OneNote pages so I can ask questions about t
 AI: (runs read-all-pages.js) I've retrieved the full content of all your pages in a readable format. Now you can ask me specific questions about any of the content.
 ```
 
-## Advanced: Direct Script Usage
+## 応用: スクリプトを直接実行
 
-For testing or development purposes, you can also use the provided scripts directly:
+テストや開発用途では、同梱スクリプトを直接実行することもできます。
 
 ```bash
-# Authenticate with Microsoft
+# Microsoft 認証
 npm run auth
 
-# List your notebooks
+# ノートブック一覧
 npm run list-notebooks
 
-# List sections in your first notebook
+# 先頭ノートブックのセクション一覧
 npm run list-sections
 
-# List pages in the first section
+# 先頭セクションのページ一覧
 npm run list-pages
 
-# Create a new page
+# 新規ページ作成
 npm run create-page
 
-# Summarize content of all pages
+# 全ページ内容を要約
 node get-all-page-contents.js
 
-# Read full content of all pages
+# 全ページ本文を取得
 node read-all-pages.js
 ```
 
-## Troubleshooting
+## トラブルシューティング
 
-### Authentication Issues
+### 認証関連の問題
 
-- If authentication fails, make sure you're using a modern browser without tracking prevention
-- Try clearing browser cookies and cache
-- If you get "expired_token" errors, restart the authentication process
+- 認証に失敗する場合は、トラッキング防止機能のない最新ブラウザを使用してください
+- ブラウザの Cookie とキャッシュのクリアを試してください
+- `expired_token` エラーが出る場合は、認証プロセスを最初からやり直してください
 
-### Server Won't Start
+### サーバーが起動しない
 
-- Verify Node.js is installed (version 16+): `node --version`
-- Make sure all dependencies are installed: `npm install`
-- Check that the TypeScript SDK was built correctly
+- Node.js がインストール済みか確認（16 以上）: `node --version`
+- 依存関係がすべてインストールされているか確認: `npm install`
+- TypeScript SDK が正しくビルドされているか確認
 
-### AI Can't Connect to the Server
+### AI がサーバーに接続できない
 
-- Ensure the MCP server is running (`npm start`)
-- Check your AI assistant's settings to make sure it's configured to use MCP
-- For Cursor, make sure it's the latest version that supports MCP
+- MCP サーバーが起動していることを確認（`npm start`）
+- AI アシスタント側で MCP 利用設定が有効か確認
+- Cursor の場合は MCP 対応の最新版を使用
 
-## Security Notes
+## セキュリティに関する注意
 
-- Authentication tokens are stored locally in `.access-token.txt`
-- Tokens grant access to your OneNote data, so keep them secure
-- Tokens expire after some time, requiring re-authentication
-- No Azure setup or API keys are required
+- 認証トークンはローカルの `.access-token.txt` に保存されます
+- トークンには OneNote データへのアクセス権があるため安全に管理してください
+- トークンは一定時間後に期限切れとなり、再認証が必要です
+- Azure 設定や API キーは不要です
 
-## Credits
+## クレジット
 
-This project builds upon the [azure-onenote-mcp-server](https://github.com/ZubeidHendricks/azure-onenote-mcp-server) by Zubeid Hendricks, with a focus on simplifying the authentication process and improving the user experience with AI assistants.
+このプロジェクトは Zubeid Hendricks 氏の [azure-onenote-mcp-server](https://github.com/ZubeidHendricks/azure-onenote-mcp-server) を基に、認証フローの簡素化と AI アシスタント利用時の体験向上に焦点を当てて作成されています。
 
-## License
+## ライセンス
 
-This project is licensed under the MIT License - see the LICENSE file for details
+このプロジェクトは MIT License のもとで提供されています。詳細は LICENSE ファイルを参照してください。
